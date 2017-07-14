@@ -38,12 +38,6 @@ var movie = function() {
  	var token = keys.twitterKeys.access_token_key;
  	var token_secret = keys.twitterKeys.access_token_secret;
 
- 	console.log(key);
- 	console.log(token_secret);
-
-
-
-
  	var client = new Twitter({
       consumer_key: key,
       consumer_secret: secret,
@@ -53,6 +47,9 @@ var movie = function() {
  	
 
  	client.get('statuses/user_timeline', { screen_name: 'AnishDabade' }, function(err, data, response) {
+  		console.log("----------------------------------------------------");
+  		console.log(data[0].text);
+  		console.log("----------------------------------------------------");
   		console.log(data[1].text);
 	});
  }
@@ -95,13 +92,14 @@ var readFile = function() {
 	    return console.log(error);
 	  }
 	   console.log(data);
-	}
+	});
+
 	var array = data.split(",");
 
 	var song = array[1];
 
 	song = song.slice(0, -1); 
-	song = song.slice(1, songTitle.length); 
+	song = song.slice(1, song.length); 
 
 	spotify(song);
 
