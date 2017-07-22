@@ -56,33 +56,71 @@ var movie = function() {
 
 
 
-var spotify = function(song) {
+//var spotify = function(song) {
 
-	var Spotify = require("node-spotify-api");
-	var spotify_id = keys.spotify.id;
-	var spotify_secrete = keys.spotify.secret;
+	// var Spotify = require("node-spotify-api");
+	// var spotify_id = keys.spotify.id;
+	// var spotify_secrete = keys.spotify.secret;
 
-	console.log(spotify_id);
-	console.log(spotify_secrete);
+	// console.log(spotify_id);
+	// console.log(spotify_secrete);
 
-	var title="";
-    for( var i=3; process.argv.length > i; i++) {
-        title += process.argv[i]+ " ";
+	// var title="";
+ //    for( var i=3; process.argv.length > i; i++) {
+ //        title += process.argv[i]+ " ";
+ //    }
+
+ //    var spotify = new Spotify({
+ //  		id : spotify_id,
+ //  		secrete : spotify_secrete
+	// });
+
+ //    spotify.search({ type: 'track', query: title }, function(err, data) {
+	//   	if (err) {
+	//     	return console.log('Error occurred: ' + err);
+	//   	}
+	 
+	// 	console.log(data); 
+	// });
+
+
+	var spotify = function(song) {
+
+    var Spotify = require("node-spotify-api");
+
+    var spotify_id = keys.spotify.id;
+    var spotify_secrete = keys.spotify.secret;
+
+    console.log(spotify_id);
+    console.log(spotify_secrete);
+
+    var title="";
+
+    if(song) {
+    	title = formatQueryString(song);
     }
 
-    var spotify = new Spotify({
-  		id : spotify_id,
-  		secrete : spotify_secrete
-	});
+    else {
+    	for( var i=3; process.argv.length > i; i++) {
+        	title += process.argv[i]+ " ";
+    	}
+    }
+    
 
-    spotify.search({ type: 'track', query: title }, function(err, data) {
-	  	if (err) {
-	    	return console.log('Error occurred: ' + err);
-	  	}
-	 
-		console.log(data); 
-	});
+   var spotifyObj = new Spotify({
+          id: spotify_id,
+          secret: spotify_secrete
+    });
+
+   spotifyObj.search({ type:'track', query:title }, function(err, data) {
+          if (err) {
+            return console.log('Error occurred: ' + err);
+          }
+     
+        console.log(data); 
+    });
 }
+
 
 
 var readFile = function() {
@@ -92,19 +130,34 @@ var readFile = function() {
 	    return console.log(error);
 	  }
 	   console.log(data);
-	});
+	   var array = data.split(",");
+	 	console.log(array);
 
-	var array = data.split(",");
-
-	var song = array[1];
+	 	var song = array[1];
 
 	song = song.slice(0, -1); 
 	song = song.slice(1, song.length); 
 
 	spotify(song);
 
+	});
+
+
+	
 }
 
+function formatQueryString(str) {
+    var finalString;
+    var splitString = str.split(" ");
+
+    if (splitString.length > 1) {
+      finalString = splitString.join("+");
+    }
+    else {
+      finalString = str;    
+    }
+    return finalString;
+ }
 
 
   var input = process.argv[2];
