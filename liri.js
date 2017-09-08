@@ -56,44 +56,11 @@ var movie = function() {
 
 
 
-//var spotify = function(song) {
-
-	// var Spotify = require("node-spotify-api");
-	// var spotify_id = keys.spotify.id;
-	// var spotify_secrete = keys.spotify.secret;
-
-	// console.log(spotify_id);
-	// console.log(spotify_secrete);
-
-	// var title="";
- //    for( var i=3; process.argv.length > i; i++) {
- //        title += process.argv[i]+ " ";
- //    }
-
- //    var spotify = new Spotify({
- //  		id : spotify_id,
- //  		secrete : spotify_secrete
-	// });
-
- //    spotify.search({ type: 'track', query: title }, function(err, data) {
-	//   	if (err) {
-	//     	return console.log('Error occurred: ' + err);
-	//   	}
-	 
-	// 	console.log(data); 
-	// });
-
-
 	var spotify = function(song) {
 
     var Spotify = require("node-spotify-api");
-
     var spotify_id = keys.spotify.id;
     var spotify_secrete = keys.spotify.secret;
-
-    console.log(spotify_id);
-    console.log(spotify_secrete);
-
     var title="";
 
     if(song) {
@@ -113,12 +80,14 @@ var movie = function() {
     });
 
    spotifyObj.search({ type:'track', query:title }, function(err, data) {
-          if (err) {
-            return console.log('Error occurred: ' + err);
-          }
-     
-        console.log(data); 
-    });
+      if (err) {
+          return console.log('Error occurred: ' + err);
+      }
+    var songs = data.tracks.items;
+    console.log(songs);
+    console.log(songs[0].id);
+
+  });
 }
 
 
@@ -129,21 +98,18 @@ var readFile = function() {
 	  if (error) {
 	    return console.log(error);
 	  }
-	   console.log(data);
-	   var array = data.split(",");
+	  console.log(data);
+	  var array = data.split(",");
 	 	console.log(array);
 
 	 	var song = array[1];
 
-	song = song.slice(0, -1); 
-	song = song.slice(1, song.length); 
+  	song = song.slice(0, -1); 
+  	song = song.slice(1, song.length); 
 
-	spotify(song);
+  	spotify(song);
 
-	});
-
-
-	
+	});	
 }
 
 function formatQueryString(str) {
