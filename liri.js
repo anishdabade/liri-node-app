@@ -29,7 +29,7 @@ var movie = function() {
 	});
  }
 
- var twitter = function() {
+  var twitter = function() {
  	var Twitter = require("twitter");
  	
 
@@ -43,7 +43,7 @@ var movie = function() {
       consumer_secret: secret,
       access_token_key: token,
       access_token_secret: token_secret
-    });
+  });
  	
 
  	client.get('statuses/user_timeline', { screen_name: 'AnishDabade' }, function(err, data, response) {
